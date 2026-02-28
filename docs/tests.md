@@ -1,10 +1,350 @@
-# Test Documentation - Phase 1
+# Test Documentation - Phase 1 & 2
 
-**Coverage**: 90.6% | **Tests**: 82 passing | **Files**: 4 test files
+**Coverage**: 90.87% | **Tests**: 192 passing | **Files**: 8 test files
 
 ---
 
-## Test File: EventEmitter.test.ts
+## Phase 2: Core Layout Components
+
+### Test File: Layout.test.ts
+_Flexbox container for horizontal or vertical layouts with gap and padding support_
+
+### Function: constructor()
+_Create a new Layout component with options_
+- should create layout with default options
+  - `it('should create layout with default options')` - Verify default values (horizontal, gap: 0, padding: 0)
+- should create layout with custom gap
+  - `it('should create layout with custom gap')` - Support custom gap between children
+- should create layout with custom padding
+  - `it('should create layout with custom padding')` - Support custom padding
+- should create layout with vertical orientation
+  - `it('should create layout with vertical orientation')` - Support vertical layout
+
+### Function: mount()
+_Mount layout to DOM container_
+- should create flexbox element on mount
+  - `it('should create flexbox element on mount')` - Create flex container element
+- should apply gap style on mount
+  - `it('should apply gap style on mount')` - Apply gap CSS property
+- should apply padding style on mount
+  - `it('should apply padding style on mount')` - Apply padding CSS property
+- should mount children on mount
+  - `it('should mount children on mount')` - Mount all child components
+- should set isMounted to true
+  - `it('should set isMounted to true')` - Track mount state
+
+### Function: update()
+_Update layout properties dynamically_
+- should update orientation
+  - `it('should update orientation')` - Switch between horizontal/vertical
+- should update gap
+  - `it('should update gap')` - Change gap dynamically
+- should update padding
+  - `it('should update padding')` - Change padding dynamically
+
+### Function: addChild()
+_Add child component to layout_
+- should add child to children array
+  - `it('should add child to children array')` - Basic child addition
+- should set child parent
+  - `it('should set child parent')` - Establish parent reference
+- should mount child if already mounted
+  - `it('should mount child if already mounted')` - Immediate mount for mounted layouts
+- should insert at specific index
+  - `it('should insert at specific index')` - Support ordered insertion
+
+### Function: removeChild()
+_Remove child component from layout_
+- should remove child from children array
+  - `it('should remove child from children array')` - Basic child removal
+- should unmount child when removed
+  - `it('should unmount child when removed')` - Cleanup on removal
+
+### Function: getChildElements()
+_Get array of child DOM elements_
+- should return array of child elements
+  - `it('should return array of child elements')` - Access child DOM nodes
+- should return empty array if not mounted
+  - `it('should return empty array if not mounted')` - Handle unmounted state
+
+### Function: clearChildren()
+_Remove all children from layout_
+- should remove all children
+  - `it('should remove all children')` - Clear all children and DOM
+
+### Function: flexDirection getter
+_Get CSS flex direction string_
+- should return "row" for horizontal orientation
+  - `it('should return "row" for horizontal orientation')` - Map to CSS value
+- should return "column" for vertical orientation
+  - `it('should return "column" for vertical orientation')` - Map to CSS value
+
+---
+
+### Test File: Panel.test.ts
+_Content panel with flexible dimension support (px, %, fill)_
+
+### Function: constructor()
+_Create a new Panel component with options_
+- should create panel with default options
+  - `it('should create panel with default options')` - Verify defaults
+- should create panel with dim option
+  - `it('should create panel with dim option')` - Support dimension string
+- should create panel with fill option
+  - `it('should create panel with fill option')` - Support fill remaining space
+- should create panel with content option
+  - `it('should create panel with content option')` - Support initial content
+- should create panel with minSize option
+  - `it('should create panel with minSize option')` - Support minimum size
+- should create panel with maxSize option
+  - `it('should create panel with maxSize option')` - Support maximum size
+
+### Function: mount()
+_Mount panel to DOM container_
+- should create element on mount
+  - `it('should create element on mount')` - Create panel element
+- should apply flex styles on mount
+  - `it('should apply flex styles on mount')` - Apply flexbox CSS
+- should create content element if content provided
+  - `it('should create content element if content provided')` - Create content wrapper
+- should not create content element if no content
+  - `it('should not create content element if no content')` - Skip content wrapper
+- should mount children on mount
+  - `it('should mount children on mount')` - Mount child components
+
+### Function: update()
+_Update panel properties dynamically_
+- should update dim property
+  - `it('should update dim property')` - Change dimension
+- should update fill property
+  - `it('should update fill property')` - Change fill state
+- should update content
+  - `it('should update content')` - Update content HTML
+- should update minSize
+  - `it('should update minSize')` - Update minimum constraint
+- should update maxSize
+  - `it('should update maxSize')` - Update maximum constraint
+
+### Function: setContent()
+_Set panel content HTML_
+- should set content property
+  - `it('should set content property')` - Update content property
+- should update DOM if mounted
+  - `it('should update DOM if mounted')` - Update live DOM
+- should create content element if not exists
+  - `it('should create content element if not exists')` - Create on demand
+
+### Function: getContent()
+_Get panel content HTML_
+- should return content
+  - `it('should return content')` - Get content string
+- should return empty string if no content
+  - `it('should return empty string if no content')` - Default empty
+
+### Function: setDimension()
+_Set panel dimension string_
+- should set dim property
+  - `it('should set dim property')` - Update dimension
+- should update DOM if mounted
+  - `it('should update DOM if mounted')` - Apply to live DOM
+
+### Function: getDimension()
+_Get current dimension_
+- should return dim
+  - `it('should return dim')` - Get dimension string
+- should return undefined if no dim
+  - `it('should return undefined if no dim')` - Handle undefined
+
+### Function: applyDimensionStyles() (private)
+_Apply dimension-based flex styles_
+- should apply flex for fill panel
+  - `it('should apply flex for fill panel')` - Fill: 1 1 auto
+- should apply flex for px dimension
+  - `it('should apply flex for px dimension')` - Fixed: 0 0 Npx
+- should apply flex for percentage dimension
+  - `it('should apply flex for percentage dimension')` - Percent: 0 0 N%
+- should apply minSize constraint
+  - `it('should apply minSize constraint')` - minWidth CSS
+- should apply maxSize constraint
+  - `it('should apply maxSize constraint')` - maxWidth CSS
+
+---
+
+### Test File: Divider.test.ts
+_Resizable divider with pointer event handling for drag-to-resize_
+
+### Function: constructor()
+_Create a new Divider component with options_
+- should create divider with default options
+  - `it('should create divider with default options')` - Default size 5px
+- should create divider with custom size
+  - `it('should create divider with custom size')` - Custom width
+- should create divider with minSize
+  - `it('should create divider with minSize')` - Minimum constraint
+- should create divider with maxSize
+  - `it('should create divider with maxSize')` - Maximum constraint
+- should create divider with onResizeStart callback
+  - `it('should create divider with onResizeStart callback')` - Start callback
+- should create divider with onResize callback
+  - `it('should create divider with onResize callback')` - Drag callback
+- should create divider with onResizeEnd callback
+  - `it('should create divider with onResizeEnd callback')` - End callback
+
+### Function: mount()
+_Mount divider to DOM container_
+- should create divider element on mount
+  - `it('should create divider element on mount')` - Create element
+- should apply size style on mount
+  - `it('should apply size style on mount')` - Apply width/flex
+- should apply default background color
+  - `it('should apply default background color')` - Gray background
+- should apply resize cursor
+  - `it('should apply resize cursor')` - ew-resize cursor
+- should add pointerdown event listener
+  - `it('should add pointerdown event listener')` - Start drag on click
+
+### Function: update()
+_Update divider properties_
+- should update size
+  - `it('should update size')` - Change width dynamically
+- should update minSize
+  - `it('should update minSize')` - Update minimum constraint
+- should update maxSize
+  - `it('should update maxSize')` - Update maximum constraint
+
+### Function: setSize()
+_Set divider size in pixels_
+- should set size property
+  - `it('should set size property')` - Update size value
+- should update DOM if mounted
+  - `it('should update DOM if mounted')` - Apply to live DOM
+
+### Function: getSize()
+_Get current divider size_
+- should return size
+  - `it('should return size')` - Get size value
+
+### Function: isDraggingNow()
+_Check if divider is currently being dragged_
+- should return false initially
+  - `it('should return false initially')` - Not dragging initially
+- should return true during drag
+  - `it('should return true during drag')` - Set during pointerdown
+
+### Function: constrainSize() (private)
+_Constrain size to min/max bounds_
+- should constrain to minSize
+  - `it('should constrain to minSize')` - Enforce minimum
+- should constrain to maxSize
+  - `it('should constrain to maxSize')` - Enforce maximum
+- should respect both min and max
+  - `it('should respect both min and max')` - Both constraints
+- should return size if no constraints
+  - `it('should return size if no constraints')` - No limits
+
+### Function: hover effects
+_Visual feedback on mouse hover_
+- should change background on mouseenter
+  - `it('should change background on mouseenter')` - Darker on hover
+- should restore background on mouseleave
+  - `it('should restore background on mouseleave')` - Restore on leave
+
+### Function: resize callbacks
+_Callback execution during resize operations_
+- should call onResizeStart on pointerdown
+  - `it('should call onResizeStart on pointerdown')` - Notify start
+- should call onResize during drag
+  - `it('should call onResize during drag')` - Notify during drag
+- should call onResizeEnd on pointerup
+  - `it('should call onResizeEnd on pointerup')` - Notify end
+
+---
+
+### Test File: LayoutEngine.test.ts
+_Utility functions for flexbox calculations and dimension resolution_
+
+### Function: calculateFlexValues()
+_Calculate flex values for dimension array_
+- should return flex values for px dimensions
+  - `it('should return flex values for px dimensions')` - Fixed: 0 0 Npx
+- should return flex values for percentage dimensions
+  - `it('should return flex values for percentage dimensions')` - Percent: 0 0 N%
+- should return auto for undefined dimensions
+  - `it('should return auto for undefined dimensions')` - Flexible: 1 1 auto
+- should handle mixed dimensions
+  - `it('should handle mixed dimensions')` - Mixed types
+
+### Function: applyConstraints()
+_Apply min/max constraints to size_
+- should return size if within constraints
+  - `it('should return size if within constraints')` - No change needed
+- should apply minSize constraint
+  - `it('should apply minSize constraint')` - Enforce minimum
+- should apply maxSize constraint
+  - `it('should apply maxSize constraint')` - Enforce maximum
+- should handle only minSize
+  - `it('should handle only minSize')` - Min only
+- should handle only maxSize
+  - `it('should handle only maxSize')` - Max only
+- should handle no constraints
+  - `it('should handle no constraints')` - No limits
+
+### Function: resolveDimension()
+_Convert dimension string to pixels_
+- should resolve px dimension to number
+  - `it('should resolve px dimension to number')` - Parse px
+- should resolve percentage dimension to pixels
+  - `it('should resolve percentage dimension to pixels')` - Calculate from total
+- should handle decimal percentages
+  - `it('should handle decimal percentages')` - Fractional percent
+
+### Function: calculateRemainingSpace()
+_Calculate space after fixed dimensions_
+- should calculate remaining space after px dimensions
+  - `it('should calculate remaining space after px dimensions')` - Subtract fixed
+- should subtract gaps from remaining space
+  - `it('should subtract gaps from remaining space')` - Account for gaps
+- should handle percentage dimensions (ignore for calculation)
+  - `it('should handle percentage dimensions')` - Ignore %
+- should handle undefined dimensions (ignore)
+  - `it('should handle undefined dimensions')` - Ignore flexible
+- should return 0 if used exceeds available
+  - `it('should return 0 if used exceeds available')` - No negative space
+- should handle empty array
+  - `it('should handle empty array')` - Full space available
+
+### Function: distributeRemainingSpace()
+_Distribute space equally among flexible items_
+- should distribute space equally
+  - `it('should distribute space equally')` - Equal division
+- should return 0 if no flexible items
+  - `it('should return 0 if no flexible items')` - Nothing to distribute
+- should handle decimal results
+  - `it('should handle decimal results')` - Fractional division
+
+### Function: isFlexible()
+_Check if dimension is flexible (undefined)_
+- should return true for undefined
+  - `it('should return true for undefined')` - Undefined is flexible
+- should return false for px dimension
+  - `it('should return false for px dimension')` - Fixed not flexible
+- should return false for percentage dimension
+  - `it('should return false for percentage dimension')` - Percent not flexible
+
+### Function: countFlexibleItems()
+_Count flexible (undefined) dimensions in array_
+- should count undefined dimensions
+  - `it('should count undefined dimensions')` - Count flexible
+- should return 0 if no flexible items
+  - `it('should return 0 if no flexible items')` - All fixed
+- should return count for all flexible
+  - `it('should return count for all flexible')` - All flexible
+
+---
+
+## Phase 1 Tests (Previous)
+
+### Test File: EventEmitter.test.ts
 _Type-safe event handling with subscribe, emit, and unsubscribe functionality_
 
 ### Function: on()

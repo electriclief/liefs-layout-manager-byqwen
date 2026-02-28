@@ -28,6 +28,22 @@ export type {
   ParsedDim,
 } from './core/types';
 
+// Layout Engine exports
+export {
+  calculateFlexValues,
+  applyConstraints,
+  resolveDimension,
+  calculateRemainingSpace,
+  distributeRemainingSpace,
+  isFlexible,
+  countFlexibleItems,
+} from './core/LayoutEngine';
+
+// Component exports
+export { Layout } from './components/Layout';
+export { Panel } from './components/Panel';
+export { Divider } from './components/Divider';
+
 // Utility exports
 export {
   isPx,

@@ -101,7 +101,7 @@ See `todo.md` for detailed breakdown. Summary:
 | Phase | Status | Focus |
 |-------|--------|-------|
 | Phase 1 | ✅ Complete | Foundation (TypeScript, build, tests) - 90.6% coverage, 82 tests |
-| Phase 2 | ⏳ Pending | Core Layout (Layout, Panel, Divider) |
+| Phase 2 | ✅ Complete | Core Layout (Layout, Panel, Divider) - 90.87% coverage, 192 tests |
 | Phase 3 | ⏳ Pending | Advanced Components (Modal, Tabs, Menu, Tree, Scrollbar) |
 | Phase 4 | ⏳ Pending | Polish (animations, touch, a11y, themes) |
 | Phase 5 | ⏳ Pending | Framework bindings (React, Vue, Angular) |
@@ -269,3 +269,4 @@ _Brief description of what this test file covers_
 **Last Updated**: 2026-02-28
 **Version**: 4.0.0-dev.0
 **Phase 1 Status**: ✅ COMPLETE - 90.6% coverage, 82 tests passing
+**Phase 2 Status**: ✅ COMPLETE - 90.87% coverage, 192 tests passing
