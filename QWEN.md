@@ -188,6 +188,25 @@ npm run dev
 
 ---
 
+## Documentation Requirements
+
+### Test Documentation (docs/tests.md)
+
+**Lief prefers a comprehensive test index at `docs/tests.md`** that lists all tested functions with this format:
+
+```
+## Test File: [filename.test.ts]
+_Brief description of what this test file covers_
+
+### Function: functionName()
+- test description
+  - `testFunctionName()` - Why this test exists (one line)
+```
+
+**Update this file at the end of each phase** to reflect newly added tests.
+
+---
+
 ## End-of-Phase Workflow
 
 **When completing any phase, Qwen MUST**:
