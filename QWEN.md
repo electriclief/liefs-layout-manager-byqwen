@@ -149,6 +149,42 @@ npm run dev
 | `QWEN.md` | This memory file - context for AI continuity |
 | `README.md` | User-facing documentation (to be created) |
 | `CHANGELOG.md` | Version history (to be created) |
+| `docs/` | Documentation directory with viewer |
+| `docs/index.html` | Markdown documentation viewer (open in browser) |
+| `docs/ImageGen_For_Qwen.json` | ComfyUI workflow for generating doc images |
+
+---
+
+## Documentation Image Generation
+
+**File**: `docs/ImageGen_For_Qwen.json`
+
+**Purpose**: ComfyUI workflow JSON for generating illustrative images for documentation
+
+**Configuration**:
+- **ComfyUI API**: `192.168.1.100:8188`
+- **Image Size**: 640x512 (adjust width/height in JSON nodes 68)
+- **Model**: z-image-turbo-Q3_K_M.gguf (fast image generation)
+- **CLIP**: Qwen_3_4b-Q8_0.gguf (stable_diffusion type)
+- **VAE**: ae.safetensors
+- **Steps**: 4 (fast, low step count for speed)
+- **Sampler**: res_multistep
+- **CFG**: 1 (minimal guidance for creative freedom)
+
+**Usage**:
+1. Open docs `.md` files that need visual explanations
+2. Create image prompt based on concept (e.g., "flexbox layout diagram horizontal panels")
+3. POST JSON to ComfyUI API with updated prompt in node 58
+4. Download generated image to `docs/images/`
+5. Reference in markdown: `![Description](images/filename.png)`
+
+**Example Prompts for This Project**:
+- "modern flexbox layout horizontal panels with resize handles"
+- "collapsible tree view file explorer dark theme"
+- "modal dialog window with close button and title bar"
+- "context menu right-click nested submenus"
+- "tab interface multiple panels switching"
+- "resizable divider between two content panels"
 
 ---
 

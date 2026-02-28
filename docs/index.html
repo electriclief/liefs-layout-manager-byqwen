@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docs Viewer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      height: 100vh;
+      background: #1a1a2e;
+      color: #eee;
+    }
+    #sidebar {
+      width: 250px;
+      background: #16213e;
+      border-right: 1px solid #0f3460;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    #sidebar h2 {
+      padding: 1rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #e94560;
+      border-bottom: 1px solid #0f3460;
+    }
+    #file-list { list-style: none; }
+    #file-list li {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      border-bottom: 1px solid #0f3460;
+      transition: background 0.2s;
+    }
+    #file-list li:hover { background: #0f3460; }
+    #file-list li.active { background: #e94560; color: #fff; }
+    #viewer {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      background: #1a1a2e;
+    }
+    #viewer h1 { color: #e94560; margin-bottom: 1rem; }
+    #viewer h2 { color: #e94560; margin: 1.5rem 0 0.75rem; }
+    #viewer h3 { color: #e94560; margin: 1rem 0 0.5rem; }
+    #viewer p { margin-bottom: 1rem; line-height: 1.6; }
+    #viewer code {
+      background: #16213e;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: 'Consolas', monospace;
+    }
+    #viewer pre {
+      background: #16213e;
+      padding: 1rem;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    #viewer pre code { background: none; padding: 0; }
+    #viewer blockquote {
+      border-left: 3px solid #e94560;
+      padding-left: 1rem;
+      margin: 1rem 0;
+      color: #aaa;
+    }
+    #viewer ul, #viewer ol { margin: 1rem 0; padding-left: 1.5rem; }
+    #viewer li { margin-bottom: 0.5rem; }
+    #viewer table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    #viewer th, #viewer td {
+      border: 1px solid #0f3460;
+      padding: 0.5rem 1rem;
+      text-align: left;
+    }
+    #viewer th { background: #16213e; }
+    #viewer a { color: #e94560; }
+    #welcome {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #666;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <nav id="sidebar">
+    <h2 id="project-title">📄 Documents</h2>
+    <ul id="file-list"></ul>
+  </nav>
+  <main id="viewer"><div id="welcome">Select a document to view</div></main>
+
+  <!-- CONFIG: Add your .md files and content here for offline use -->
+  <script id="docs-config" type="application/json">
+  {
+    "files": {
+      "intent.md": "# Liefs Layout Manager - Intent & Architecture Document\n\n> **Purpose**: This document captures the complete intent, architecture, and functionality of the original liefs-layout-manager (v3.0.0, 2017-2021) to enable a complete modern rewrite.\n\n---\n\n## Table of Contents\n\n1. [Overview](#overview)\n2. [Core Philosophy](#core-philosophy)\n3. [Original Architecture](#original-architecture)\n4. [Component Breakdown](#component-breakdown)\n5. [Key Features](#key-features)\n6. [Usage Patterns](#usage-patterns)\n7. [Problems with Original](#problems-with-original)\n8. [Modern Rewrite Goals](#modern-rewrite-goals)\n9. [Proposed New Architecture](#proposed-new-architecture)\n10. [Implementation Roadmap](#implementation-roadmap)\n\n---\n\n## 1. Overview\n\n**Package**: `liefs-layout-manager`  \n**Original Author**: Stacy Lief Kelly  \n**Version**: 3.0.0 (last updated May 2021)  \n**Original Era**: 2017-2021 (JavaScript/TypeScript transition period)\n\n**What It Is**: A client-side dynamic layout management framework for creating complex, resizable, dynamic web page layouts without relying on CSS frameworks.\n\n**Core Value Proposition**:\n- Clean DOM management (removes non-visible divs automatically)\n- Pixel-perfect control over element positioning\n- Built-in support for resizable panels, tabs, trees, modals, scrollbars\n- No dependencies, smaller than jQuery\n- Works with vanilla JS or frameworks\n\n---\n\n## 2. Core Philosophy\n\n### Design Principles\n\n1. **Layout as Code**: Define layouts programmatically rather than with CSS classes\n2. **Coordinate-Based Positioning**: Absolute positioning with explicit x, y, width, height\n3. **Clean DOM**: Only render visible elements; remove hidden elements from DOM\n4. **Component Hierarchy**: Everything is a Component with parent/child relationships\n5. **Two-Phase Rendering**: `preRender()` for modifications, `Render()` for actual rendering\n6. **Event Stacking**: Multiple event handlers can be stacked on the same element\n7. **Dimension System**: Support both pixels (`\"100px\"`) and percentages (`\"50%\"`)\n\n### Target Use Cases\n\n- Admin dashboards with resizable panels\n- IDE-like interfaces with collapsible sections\n- Complex data entry forms with dynamic sections\n- Applications requiring drag-to-resize functionality\n- Modal dialog systems with custom positioning\n\n---\n\n## 3. Original Architecture\n\n### Class Hierarchy\n\n```\nBase\n├── Component\n│   ├── DisplayCell\n│   │   └── Element_\n│   ├── DisplayGroup\n│   ├── Handler\n│   ├── DragBar\n│   ├── Modal\n│   │   └── Stretch (resize handles)\n│   ├── Pages (tab/swipe system)\n│   ├── ScrollBar\n│   ├── Context (right-click menus)\n│   ├── Tree_ (tree view)\n│   └── Selected (selection management)\n├── Coord (position/size data)\n├── node_ (tree structure)\n├── Css (CSS class management)\n├── Render (rendering engine)\n├── FunctionStack (event stacking)\n├── onDrag_ (drag event handler)\n└── onHoldClick_ (hold-to-repeat click)\n```\n\n### Core Systems\n\n#### 3.1 Argument System (Arguments_)\n\nUnique feature: Constructor argument sorting by type.\n\n```typescript\n// Instead of named parameters or options object:\nnew DisplayGroup(\"label\", 5, \"50%\", true)\n\n// Arguments are sorted by type:\n// - string: [\"label\"]\n// - number: [5]\n// - dim: [\"50%\"]\n// - boolean: [true]\n```\n\n**Problem**: Hard to understand, order matters within same type, no IDE autocomplete.\n\n#### 3.2 Coord System\n\nEvery component has a `Coord` object with:\n- `x, y, width, height` - position and size\n- `zindex` - stacking order\n- `within` - parent bounds (for clipping detection)\n- `offset` - for scrolling/panning\n\n**Rendering Flow**:\n1. Parent Coord is copied to children\n2. Children adjust based on their specific logic\n3. Render checks if outside `within` bounds → skip rendering\n\n#### 3.3 Render System\n\nTwo-phase render cycle:\n\n```typescript\npreRender(derender, node, zindex) {\n    // Modify parent DisplayCells before rendering\n    // Return children to render\n}\n\nRender(derender, node, zindex) {\n    // Calculate coordinates\n    // Return array of children to render\n}\n```\n\n**Update Cycle**:\n```\nUser Action → Render.scheduleUpdate() → setTimeout(0) → Render.fullupdate()\n```\n\n#### 3.4 Event System\n\nEvent stacking allows multiple handlers:\n\n```typescript\nelement.addEvents({\n    onclick: function1,\n    ondrag: [onDown, onMove, onUp]  // Custom drag event\n})\n```\n\n---\n\n## 4. Component Breakdown\n\n### 4.1 DisplayCell\n\n**Purpose**: Container that holds components within a coordinate space.\n\n```typescript\nconst cell = new DisplayCell(\"myCell\")\n    .addComponent(new Element_(\"Hello World\"));\n```\n\n**Key Features**:\n- Manages child components\n- Provides coordinate system for children\n- Handles margins\n\n**Shortcut**: `I(\"label\", content, css)` creates DisplayCell + Element_\n\n### 4.2 DisplayGroup\n\n**Purpose**: Layout engine - arranges DisplayCells in rows (horizontal) or columns (vertical).\n\n```typescript\n// Horizontal layout: 3 cells, 5px gap\nconst hGroup = new DisplayGroup(\"hGroup\", 5, true);\nhGroup.parentDisplayCell.addComponent(hGroup);\n\n// Add cells with dimensions\nhGroup.children.push(cell1);  // cell1.dim = \"200px\"\nhGroup.children.push(cell2);  // cell2.dim = \"50%\"\nhGroup.children.push(cell3);  // cell3.dim = undefined (fills remainder)\n```\n\n**Dimension Calculation**:\n1. First pass: Collect px and % values\n2. Second pass: Distribute remaining space for empty dims\n3. Third pass: Convert % to px\n4. Enforce minimum sizes\n\n**Shortcuts**:\n```typescript\nh(\"label\", 5, cell1, cell2)  // horizontal\nv(\"label\", 5, cell1, cell2)  // vertical\n```\n\n### 4.3 Element_\n\n**Purpose**: Wrapper around HTML div elements.\n\n```typescript\nconst el = new Element_(\"myButton\", \"Click Me\", \"buttonCss\");\nel.addEvents({ onclick: () => console.log(\"clicked\") });\n```\n\n**Features**:\n- Manages HTML attributes\n- Handles CSS classes\n- Custom event types (ondrag, onholdclick)\n\n### 4.4 DragBar\n\n**Purpose**: Resizable divider between panels.\n\n```typescript\nconst dragBar = new DragBar(\"resizer\", 100, 500);  // min: 100px, max: 500px\n```\n\n**Behavior**:\n- Appears between DisplayGroup children\n- Dragging adjusts adjacent cell dimensions\n- Automatically detects orientation (horizontal/vertical group)\n\n### 4.5 Pages\n\n**Purpose**: Tab/swipe system - show one child at a time.\n\n```typescript\nconst pages = new Pages(\"tabs\", tree, evalFunction);\npages.currentPage = 2;  // Switch to page 2\n```\n\n**Features**:\n- Switch by index or evaluation function\n- Integrates with Tree for navigation\n- Only renders current page\n\n### 4.6 ScrollBar\n\n**Purpose**: Custom scrollbar for overflow content.\n\n```typescript\nconst scrollbar = new ScrollBar(\"scroll\", true);  // true = horizontal\n```\n\n**Features**:\n- Auto-shows when content overflows\n- Arrow buttons for fine control\n- Click bar to jump, drag to scroll\n- Auto-hides when not needed\n\n### 4.7 Modal\n\n**Purpose**: Draggable, resizable popup windows.\n\n```typescript\nconst modal = new Modal(\"myModal\", rootCell, startCoord);\nmodal.show();\nmodal.dragWith(titleBar);  // Drag by title bar\nmodal.closeWith(closeButton);\n```\n\n**Features**:\n- Draggable by any element\n- Optional resize handles (Stretch)\n- Stays within screen bounds\n- Z-index management\n\n### 4.8 Context\n\n**Purpose**: Right-click (context) menus with submenus.\n\n```typescript\nconst contextMenu = new Context(\"menu\", \"oncontextmenu\", true, contextNode);\ncontextMenu.onclick = (e, cell, node) => { /* handle selection */ };\n```\n\n**Features**:\n- Triggered by any event (default: contextmenu)\n- Supports nested submenus\n- Auto-positioning (follows cursor or parent)\n- Auto-dismiss on mouse leave\n\n### 4.9 Tree_\n\n**Purpose**: Expandable/collapsible tree view.\n\n```typescript\nconst tree = new Tree_(\"fileTree\", rootNode);\ntree.indent = 20;\ntree.height = 25;\n```\n\n**Features**:\n- Auto scrollbars for overflow\n- Custom icons (collapsed/expanded)\n- Integration with Selected for highlighting\n- Lazy rendering (only visible nodes)\n\n### 4.10 Selected\n\n**Purpose**: Manage selection state across components.\n\n```typescript\nconst selected = new Selected(\"nav\", 0, {\n    getIndexerArray: () => [/* array of DisplayCells */],\n    onselect: (index, cell) => { /* highlight */ },\n    onunselect: (index, cell) => { /* unhighlight */ }\n});\nselected.select(2);  // Select item 2\n```\n\n---\n\n## 5. Key Features\n\n### 5.1 Dimension System\n\nSupports mixed units:\n\n```typescript\ncell1.dim = \"200px\";     // Fixed pixels\ncell2.dim = \"50%\";       // Percentage of available space\ncell3.dim = undefined;   // Fills remainder\ncell4.min = 100;         // Minimum size constraint\n```\n\n### 5.2 Automatic Layout Calculation\n\nDisplayGroup handles complex distribution:\n\n```\nContainer: 1000px\n├─ Cell 1: 200px (fixed)\n├─ Cell 2: 50% (of remaining 800px = 400px)\n├─ Cell 3: ? (fills remainder = 400px)\n└─ Margins: 5px between cells\n```\n\n### 5.3 Viewport Clipping\n\nElements automatically clip when outside view:\n\n```typescript\n// Coord checks if outside 'within' bounds\nif (coord.isCoordCompletelyOutside()) {\n    // Skip rendering, remove from DOM\n}\n```\n\n### 5.4 Event Stacking\n\nMultiple handlers for same event:\n\n```typescript\n// FunctionStack allows multiple onclick handlers\nelement.addEvents({ onclick: handler1 });\nelement.addEvents({ onclick: handler2 });\n// Both fire on click\n```\n\n### 5.5 Custom Events\n\nBuilt-in complex event types:\n\n```typescript\n// Drag with start/move/end\nevents({ ondrag: [onDown, onMove, onUp] })\n\n// Hold-to-repeat click\nevents({ onholdclick: [handler, initialDelay, repeatDelay] })\n```\n\n---\n\n## 6. Usage Patterns\n\n### 6.1 Basic Layout\n\n```typescript\nimport { h, v, I } from 'liefs-layout-manager';\n\n// Simple 3-column layout\nconst layout = v(\"main\", 0,\n    h(\"header\", 0, I(\"title\", \"My App\")),\n    h(\"content\", 0,\n        I(\"left\", \"200px\", \"Sidebar\"),\n        I(\"middle\", \"100%\", \"Main Content\"),\n        I(\"right\", \"150px\", \"Panel\")\n    ),\n    h(\"footer\", 0, I(\"copyright\", \"© 2021\"))\n);\n```\n\n### 6.2 Resizable Panels\n\n```typescript\nimport { h, DragBar } from 'liefs-layout-manager';\n\nconst resizable = h(\"resizable\", 5,  // 5px gap = drag bar width\n    I(\"panel1\", \"300px\", \"Left Panel\"),\n    new DragBar(\"drag1\", 100, 500),  // min 100px, max 500px\n    I(\"panel2\", \"100%\", \"Right Panel\")\n);\n```\n\n### 6.3 Modal Dialog\n\n```typescript\nimport { winModal, I } from 'liefs-layout-manager';\n\nconst dialog = new winModal(\"dialog\", {\n    titleText: \"Settings\",\n    innerHTML: \"<form>...</form>\",\n    headerHeight: 30,\n    onclose: () => console.log(\"closed\")\n});\ndialog.show();\n```\n\n### 6.4 Context Menu\n\n```typescript\nimport { context, node_ } from 'liefs-layout-manager';\n\nconst menuNode = new node_(\"menu\",\n    new node_(\"Copy\", () => copy()),\n    new node_(\"Paste\", () => paste()),\n    new node_(\"Submenu\",\n        new node_(\"Option 1\", () => opt1()),\n        new node_(\"Option 2\", () => opt2())\n    )\n);\n\nconst contextMenu = context(\"ctxMenu\", \"oncontextmenu\", true, menuNode);\n```\n\n### 6.5 Tree View\n\n```typescript\nimport { Tree_, node_ } from 'liefs-layout-manager';\n\nconst treeRoot = new node_(\"root\",\n    new node_(\"Parent 1\",\n        new node_(\"Child 1.1\"),\n        new node_(\"Child 1.2\")\n    ),\n    new node_(\"Parent 2\")\n);\n\nconst tree = new Tree_(\"fileTree\", treeRoot);\ntree.indent = 20;\ntree.height = 25;\n```\n\n---\n\n## 7. Problems with Original\n\n### 7.1 API Design Issues\n\n1. **Argument Sorting Confusion**\n   ```typescript\n   // Unclear what each parameter does\n   new DisplayGroup(\"label\", 5, \"50%\", true)\n\n   // Better with named parameters\n   new DisplayGroup({ label: \"main\", margin: 5, dim: \"50%\", horizontal: true })\n   ```\n\n2. **No TypeScript Support (despite .d.ts files)**\n   - Argument types not enforced\n   - Return types often `any`\n   - Complex inheritance hard to follow\n\n3. **Inconsistent Naming**\n   - `DisplayCell` vs `Element_` vs `node_`\n   - Mixed camelCase and underscores\n   - Abbreviations: `el`, `dim`, `coord`\n\n### 7.2 Architecture Issues\n\n1. **Global State**\n   - Static `instances` objects everywhere\n   - No dependency injection\n   - Hard to test in isolation\n\n2. **Manual DOM Management**\n   - Direct `document.createElement` calls\n   - Manual style string concatenation\n   - No virtual DOM or diffing\n\n3. **Render Performance**\n   - Full re-render on any change\n   - No memoization\n   - `setTimeout(0)` for all updates\n\n4. **Tight Coupling**\n   - Components reference each other directly\n   - Hard to extract/replace pieces\n   - No clear boundaries\n\n### 7.3 Missing Features\n\n1. **No Animation Support**\n   - Instant changes only\n   - No transitions for resize/collapse\n\n2. **No Touch Support**\n   - Mouse events only\n   - No mobile/touch device support\n\n3. **No Accessibility**\n   - No ARIA attributes\n   - No keyboard navigation\n   - No screen reader support\n\n4. **No SSR Support**\n   - Browser-only\n   - No server-side rendering\n\n### 7.4 Code Quality\n\n1. **No Tests**\n   - `npm test` → \"Error: no test specified\"\n   - Manual testing only\n\n2. **Inconsistent Documentation**\n   - JSDoc comments present but incomplete\n   - Examples not always up-to-date\n\n3. **Dead Code**\n   - Commented-out boilerplate left in source\n   - Unused methods (`toCode`, `red()`)\n\n---\n\n## 8. Modern Rewrite Goals\n\n### 8.1 API Improvements\n\n1. **Named Parameters / Options Objects**\n   ```typescript\n   // Old\n   new DisplayGroup(\"label\", 5, \"50%\", true)\n\n   // New\n   createDisplayGroup({\n     label: \"main\",\n     margin: 5,\n     dim: \"50%\",\n     orientation: \"horizontal\"\n   })\n   ```\n\n2. **Builder Pattern for Complex Structures**\n   ```typescript\n   const layout = createLayout()\n     .horizontal({ margin: 5 })\n       .panel({ dim: \"200px\", content: \"Sidebar\" })\n       .panel({ dim: \"100%\", content: \"Main\" })\n     .build();\n   ```\n\n3. **React/Vue/Angular Compatibility**\n   ```tsx\n   // React example\n   <DisplayGroup orientation=\"horizontal\" margin={5}>\n     <Panel dim=\"200px\">Sidebar</Panel>\n     <Panel dim=\"100%\">Main</Panel>\n   </DisplayGroup>\n   ```\n\n### 8.2 Architecture Improvements\n\n1. **Flexbox-Based Layout**\n   - Replace absolute positioning with CSS Flexbox\n   - Better browser support\n   - Simpler code, better performance\n   - Native responsiveness\n\n2. **Component-Based Design**\n   - True encapsulation\n   - Props/children pattern\n   - Lifecycle hooks (mount, update, unmount)\n\n3. **State Management**\n   - Centralized state store\n   - Immutable updates\n   - Predictable rendering\n\n4. **Event System**\n   - Use standard DOM events\n   - Remove event stacking complexity\n   - Better TypeScript support\n\n### 8.3 Feature Additions\n\n1. **Animations**\n   - CSS transitions for resize\n   - Spring animations for modals\n   - Configurable animation curves\n\n2. **Touch Support**\n   - Pointer events instead of mouse\n   - Touch gestures for mobile\n   - Responsive touch targets\n\n3. **Accessibility**\n   - ARIA labels and roles\n   - Keyboard navigation\n   - Focus management\n   - Screen reader testing\n\n4. **Theming**\n   - CSS custom properties\n   - Built-in themes\n   - Easy customization\n\n5. **DevTools**\n   - Layout visualization\n   - Performance profiling\n   - Debug mode\n\n### 8.4 Quality Improvements\n\n1. **Full Test Suite**\n   - Unit tests for all components\n   - Integration tests for layouts\n   - E2E tests with Playwright\n\n2. **TypeScript First**\n   - Strict mode enabled\n   - No `any` types\n   - Full type inference\n\n3. **Documentation**\n   - Auto-generated API docs\n   - Interactive examples\n   - Migration guide from v3\n\n4. **Performance**\n   - Virtual rendering for large trees\n   - Memoization of calculations\n   - RequestAnimationFrame for updates\n\n---\n\n## 9. Proposed New Architecture\n\n### 9.1 Core Concepts\n\n```\n┌─────────────────────────────────────────────────────┐\n│                   Public API                        │\n│  (Builder Pattern, React Components, Vanilla JS)   │\n└─────────────────────────────────────────────────────┘\n                          ↓\n┌─────────────────────────────────────────────────────┐\n│                 Layout Engine                       │\n│  (Flexbox calculations, Size distribution)          │\n└─────────────────────────────────────────────────────┘\n                          ↓\n┌─────────────────────────────────────────────────────┐\n│              Component System                       │\n│  (Base classes, Lifecycle, Event handling)          │\n└─────────────────────────────────────────────────────┘\n                          ↓\n┌─────────────────────────────────────────────────────┐\n│               Render Layer                          │\n│  (DOM manipulation, CSS application)                │\n└─────────────────────────────────────────────────────┘\n```\n\n### 9.2 Module Structure\n\n```\n@liefs/layout-manager/\n├── core/\n│   ├── LayoutEngine.ts      # Flexbox calculations\n│   ├── Component.ts         # Base component class\n│   ├── EventEmitter.ts      # Event system\n│   └── types.ts             # TypeScript types\n├── components/\n│   ├── Panel.ts             # Basic panel (replaces DisplayCell)\n│   ├── Layout.ts            # Container (replaces DisplayGroup)\n│   ├── Divider.ts           # Resizable divider (replaces DragBar)\n│   ├── Tabs.ts              # Tab system (replaces Pages)\n│   ├── Modal.ts             # Modal dialogs\n│   ├── Menu.ts              # Context menus\n│   ├── Tree.ts              # Tree view\n│   └── Scrollbar.ts         # Custom scrollbars\n├── hooks/                   # React hooks (if React support)\n│   ├── useLayout.ts\n│   └── useResizable.ts\n├── utils/\n│   ├── dimensions.ts        # Dimension parsing\n│   └── dom.ts               # DOM utilities\n└── index.ts                 # Public exports\n```\n\n### 9.3 Flexbox Strategy\n\n**Old Approach (Absolute Positioning)**:\n```typescript\n// Manual calculation\ncell.coord.x = 0;\ncell.coord.y = 0;\ncell.coord.width = 200;\ncell.coord.height = \"100%\";\n```\n\n**New Approach (Flexbox)**:\n```css\n.layout-horizontal {\n  display: flex;\n  flex-direction: row;\n  gap: 5px;\n}\n\n.panel {\n  flex: 0 0 200px;  /* flex-grow, flex-shrink, flex-basis */\n}\n\n.panel-fill {\n  flex: 1 1 auto;  /* Fill remaining space */\n}\n```\n\n**Benefits**:\n- Browser handles layout calculations\n- Automatic responsiveness\n- Simpler code\n- Better performance\n- Native browser optimizations\n\n### 9.4 Resizable Panels with Flexbox\n\n```typescript\n// Using modern CSS Grid + Resize Observer\nclass ResizablePanel {\n  constructor(options: {\n    minSize?: number;\n    maxSize?: number;\n    initialSize?: string;\n  }) {}\n\n  onResize(callback: (size: number) => void) {}\n}\n\n// Usage\nconst [left, divider, right] = createLayout({\n  orientation: 'horizontal',\n  children: [\n    createPanel({ initialSize: '300px', minSize: 100 }),\n    createDivider(),\n    createPanel({ fill: true })\n  ]\n});\n```\n\n### 9.5 State Management\n\n```typescript\n// Centralized layout state\ninterface LayoutState {\n  panels: Map<string, PanelState>;\n  dividers: Map<string, DividerState>;\n  modals: ModalState[];\n}\n\n// Immutable updates\nconst newState = produce(state, draft => {\n  draft.panels.get('left').size = '400px';\n});\n\n// React integration\nconst [layout, dispatch] = useLayoutReducer(initialState);\n```\n\n### 9.6 Event System\n\n```typescript\n// Standard DOM events with better typing\ninterface LayoutEvents {\n  resize: { panelId: string; newSize: number };\n  collapse: { panelId: string };\n  modalOpen: { modalId: string };\n  modalClose: { modalId: string };\n}\n\nclass EventEmitter {\n  on<K extends keyof LayoutEvents>(\n    event: K,\n    callback: (data: LayoutEvents[K]) => void\n  ): () => void;\n\n  emit<K extends keyof LayoutEvents>(\n    event: K,\n    data: LayoutEvents[K]\n  ): void;\n}\n```\n\n---\n\n## 10. Implementation Roadmap\n\n### Phase 1: Foundation (Week 1-2)\n\n- [ ] Set up modern TypeScript project\n- [ ] Configure build system (Vite/Rollup)\n- [ ] Set up testing (Vitest + Playwright)\n- [ ] Create base Component class\n- [ ] Implement EventEmitter\n- [ ] Create dimension parsing utilities\n\n### Phase 2: Core Layout (Week 3-4)\n\n- [ ] Implement Layout component (Flexbox container)\n- [ ] Implement Panel component\n- [ ] Implement Divider component (resizable)\n- [ ] Add Resize Observer support\n- [ ] Create basic examples\n\n### Phase 3: Advanced Components (Week 5-6)\n\n- [ ] Implement Modal system\n- [ ] Implement Tabs component\n- [ ] Implement Menu/ContextMenu\n- [ ] Implement Tree view\n- [ ] Implement Scrollbar\n\n### Phase 4: Polish (Week 7-8)\n\n- [ ] Add animations\n- [ ] Add touch support\n- [ ] Add accessibility features\n- [ ] Create themes\n- [ ] Write documentation\n\n### Phase 5: Framework Integration (Week 9-10)\n\n- [ ] React components/hooks\n- [ ] Vue components/composables\n- [ ] Angular components\n- [ ] Svelte components\n\n### Phase 6: Release (Week 11-12)\n\n- [ ] Beta testing\n- [ ] Performance optimization\n- [ ] Migration guide\n- [ ] v4.0.0 release\n\n---\n\n## Appendix A: Original API Reference\n\n### Shortcuts\n\n| Function | Creates | Description |\n|----------|---------|-------------|\n| `I(label, content, css)` | DisplayCell + Element_ | Basic content cell |\n| `h(label, margin, ...cells)` | DisplayCell + DisplayGroup (horizontal) | Horizontal layout |\n| `v(label, margin, ...cells)` | DisplayCell + DisplayGroup (vertical) | Vertical layout |\n| `H(label, ...args)` | DisplayCell + Handler | Event handler container |\n| `P(...args)` | DisplayCell + Pages | Tab/swipe system |\n\n### Dimension Format\n\n```typescript\ntype Dim = `${number}px` | `${number}%`;\n\n// Examples\n\"200px\"   // Fixed 200 pixels\n\"50%\"     // 50 percent of parent\n\"100%\"    // Fill parent\n```\n\n### Component Lifecycle\n\n```\n1. Constructor → buildBase() → apply arguments\n2. onConnect() → parent discovered\n3. preRender() → modify before render\n4. Render() → calculate coordinates, return children\n5. (repeat 3-4 on updates)\n6. delete() → cleanup\n```\n\n---\n\n## Appendix B: Key Learnings from Original\n\n### What Worked Well\n\n1. **Clean DOM**: Only rendering visible elements kept performance good\n2. **Dimension System**: Mixed px/% was powerful and flexible\n3. **Drag Events**: Custom ondrag/onholdclick were useful\n4. **Modal System**: Flexible dragging/resizing worked well\n5. **Context Menus**: Nested menus with auto-positioning\n\n### What Didn't Work\n\n1. **Absolute Positioning**: Too much manual calculation\n2. **Argument Sorting**: Confusing API, hard to maintain\n3. **Global State**: Hard to test, debug, and reason about\n4. **Render System**: Full re-renders were inefficient\n5. **No Tests**: Bugs discovered by users, not developers\n\n### What to Keep\n\n1. Philosophy of clean DOM\n2. Mixed dimension system (px + %)\n3. Component hierarchy concept\n4. Event handling (but simplified)\n5. Modal/drag behavior\n\n### What to Change\n\n1. Use Flexbox/Grid instead of absolute positioning\n2. Named parameters / options objects\n3. Proper state management\n4. Incremental rendering with memoization\n5. Full test coverage\n\n---\n\n## Appendix C: Migration Considerations\n\n### Breaking Changes (v3 → v4)\n\n1. **Argument System**: All constructors use options objects\n2. **Positioning**: Flexbox replaces coordinate system\n3. **Events**: Standard DOM events replace custom stacking\n4. **Naming**: Consistent naming conventions\n5. **Modules**: ES modules only (no UMD/IIFE)\n\n### Backwards Compatibility\n\n- Provide v3 compatibility layer?\n- Migration scripts/codemods?\n- Detailed migration guide\n\n---\n\n**Document Version**: 1.0\n**Created**: 2026-02-28\n**Based On**: liefs-layout-manager v3.0.0 (2021)\n**Purpose**: Enable complete modern rewrite"
+    }
+  }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+  <script>
+    (async () => {
+      // Set project title from parent directory name (grandparent of docs/)
+      const pathParts = window.location.pathname.split('/').filter(p => p);
+      const projectDir = pathParts[pathParts.length - 3] || 'Documents';
+      const titleEl = document.getElementById('project-title');
+      titleEl.textContent = `📄 ${projectDir}`;
+      titleEl.style.cursor = 'pointer';
+      titleEl.title = 'Click to show full index';
+
+      const fileList = document.getElementById('file-list');
+      const viewer = document.getElementById('viewer');
+      let activeItem = null;
+      let showingIndex = false;
+
+      // Load config from embedded JSON
+      const config = JSON.parse(document.getElementById('docs-config').textContent);
+      const files = Object.keys(config.files);
+
+      // Show full index view
+      function showIndex() {
+        showingIndex = true;
+        if (activeItem) activeItem.classList.remove('active');
+        viewer.innerHTML = `
+          <div style="max-width:800px;margin:0 auto;">
+            <h1 style="margin-bottom:1.5rem;">📑 Full Index</h1>
+            <div style="display:grid;gap:0.5rem;">
+              ${files.map(f => `
+                <div data-index-file="${f}" style="
+                  background:#16213e;
+                  padding:0.75rem 1rem;
+                  border-radius:4px;
+                  cursor:pointer;
+                  border:1px solid #0f3460;
+                  transition:all 0.2s;
+                " onmouseover="this.style.background='#0f3460'" onmouseout="this.style.background='#16213e'">
+                  ${f}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        viewer.querySelectorAll('[data-index-file]').forEach(el => {
+          el.addEventListener('click', () => {
+            const filename = el.dataset.indexFile;
+            showingIndex = false;
+            selectFile(filename);
+            viewer.innerHTML = marked.parse(config.files[filename]);
+          });
+        });
+      }
+
+      titleEl.addEventListener('click', showIndex);
+
+      function selectFile(filename) {
+        if (activeItem) activeItem.classList.remove('active');
+        const item = Array.from(fileList.querySelectorAll('li'))
+          .find(li => li.dataset.file === filename);
+        if (item) {
+          item.classList.add('active');
+          activeItem = item;
+        }
+      }
+
+      fileList.addEventListener('click', (e) => {
+        const li = e.target.closest('li');
+        if (!li) return;
+        const filename = li.dataset.file;
+        selectFile(filename);
+        viewer.innerHTML = marked.parse(config.files[filename]);
+      });
+
+      // Build file list
+      if (files.length) {
+        fileList.innerHTML = files.map(f => 
+          `<li data-file="${f}">${f}</li>`
+        ).join('');
+        selectFile(files[0]);
+        viewer.innerHTML = marked.parse(config.files[files[0]]);
+      } else {
+        fileList.innerHTML = '<li style="color:#666">No .md files found</li>';
+      }
+    })();
+  </script>
+</body>
+</html>
