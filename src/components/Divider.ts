@@ -59,12 +59,12 @@ export class Divider extends Component {
    */
   constructor(options: DividerOptions = {}) {
     super('Divider', options);
-    this.size = options.size || 5;
-    this.minSize = options.minSize;
-    this.maxSize = options.maxSize;
-    this.onResizeStart = options.onResizeStart;
-    this.onResize = options.onResize;
-    this.onResizeEnd = options.onResizeEnd;
+    this.size = options.size ?? 5;
+    if (options.minSize !== undefined) this.minSize = options.minSize;
+    if (options.maxSize !== undefined) this.maxSize = options.maxSize;
+    if (options.onResizeStart !== undefined) this.onResizeStart = options.onResizeStart;
+    if (options.onResize !== undefined) this.onResize = options.onResize;
+    if (options.onResizeEnd !== undefined) this.onResizeEnd = options.onResizeEnd;
   }
 
   /**

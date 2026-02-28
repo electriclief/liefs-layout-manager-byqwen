@@ -188,6 +188,19 @@ npm run dev
 
 ---
 
+## User Commitment
+
+**Lief's Promise**: At the end of each phase, I am willing to complete ALL remaining tests and unchecked items before marking a phase as truly complete. No phase is "done" until:
+- ✅ All tests pass (100% of planned tests for that phase)
+- ✅ Coverage exceeds 90%
+- ✅ All documentation is updated
+- ✅ All examples work correctly
+- ✅ Git commit and push completed
+
+**Current Status**: Phase 2 has incomplete items (Resize Observer Integration, Basic Examples) that need to be addressed before Phase 2 is truly complete.
+
+---
+
 ## Documentation Requirements
 
 ### Test Documentation (docs/tests.md)

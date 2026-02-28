@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test 03: Resizable Panels</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif;
+      background: #1a1a2e;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+    }
+    h1 { color: #e94560; margin-bottom: 10px; }
+    .instructions { background: #16213e; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+    #layout-container {
+      width: 100%;
+      height: calc(100vh - 150px);
+      background: #0f3460;
+      border-radius: 8px;
+    }
+    .panel {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .panel-left { background: #e94560; }
+    .panel-right { background: #533483; }
+    .divider {
+      background: #4a5568;
+      transition: background 0.2s;
+    }
+    .divider:hover {
+      background: #718096;
+    }
+    .divider.dragging {
+      background: #e94560;
+    }
+    .size-display {
+      margin-top: 20px;
+      padding: 10px;
+      background: #16213e;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #e94560;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Test 03: Resizable Panels</h1>
+  
+  <div class="instructions">
+    <strong>What to test:</strong>
+    <ul>
+      <li>✅ Two panels with a divider between them</li>
+      <li>✅ Left panel: Fixed 300px width (pink)</li>
+      <li>✅ Right panel: Fills remaining space (purple)</li>
+      <li>✅ <strong>DRAG THE DIVIDER!</strong> - Should resize smoothly</li>
+      <li>✅ Divider changes color on hover</li>
+      <li>✅ Minimum size: 100px, Maximum: 600px</li>
+    </ul>
+    <p><strong>CRITICAL TEST:</strong> Click and drag the gray divider. Does it resize the panels?</p>
+    <p><strong>DID THAT WORK HUMAN?</strong> Report back: ✅ Pass or ❌ Fail</p>
+  </div>
+
+  <div id="layout-container"></div>
+  
+  <div class="size-display">
+    Left panel width: <span id="left-width">300</span>px | 
+    Right panel width: <span id="right-width">auto</span>
+  </div>
+
+  <a href="../index.html" class="back-link">← Back to Test Index</a>
+
+  <script type="module">
+    import { Layout, Panel, Divider } from '../../dist/liefs-layout-manager.js';
+
+    // Create horizontal layout
+    const layout = new Layout({
+      id: 'resizeLayout',
+      orientation: 'horizontal',
+      gap: 0, // No gap, we use divider
+      className: 'layout'
+    });
+
+    // Create left panel
+    const leftPanel = new Panel({
+      id: 'leftPanel',
+      dim: '300px',
+      minSize: 100,
+      maxSize: 600,
+      content: '<h2>Left Panel</h2><p>Resizable (100-600px)</p>',
+      className: 'panel panel-left'
+    });
+
+    // Create divider
+    const divider = new Divider({
+      id: 'divider1',
+      size: 5,
+      minSize: 100,
+      maxSize: 600,
+      className: 'divider',
+      onResizeStart: () => {
+        console.log('Resize started');
+      },
+      onResize: (size) => {
+        document.getElementById('left-width').textContent = size.toFixed(0);
+      },
+      onResizeEnd: () => {
+        console.log('Resize ended');
+      }
+    });
+
+    // Create right panel
+    const rightPanel = new Panel({
+      id: 'rightPanel',
+      fill: true,
+      content: '<h2>Right Panel</h2><p>Fills remaining space</p>',
+      className: 'panel panel-right'
+    });
+
+    // Add to layout
+    layout.addChild(leftPanel);
+    layout.addChild(divider);
+    layout.addChild(rightPanel);
+
+    // Mount to container
+    const container = document.getElementById('layout-container');
+    layout.mount(container);
+
+    // Update right panel width display
+    const updateWidths = () => {
+      const rightWidth = container.offsetWidth - leftPanel.element?.offsetWidth - 5;
+      document.getElementById('right-width').textContent = rightWidth.toFixed(0);
+    };
+
+    // Update on resize
+    setTimeout(updateWidths, 100);
+    setInterval(updateWidths, 500);
+  </script>
+</body>
+</html>

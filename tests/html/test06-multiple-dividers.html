@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test 06: Multiple Dividers</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif;
+      background: #1a1a2e;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+    }
+    h1 { color: #e94560; margin-bottom: 10px; }
+    .instructions { background: #16213e; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+    #layout-container {
+      width: 100%;
+      height: calc(100vh - 150px);
+      background: #0f3460;
+      border-radius: 8px;
+    }
+    .panel {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .panel-1 { background: #e94560; }
+    .panel-2 { background: #0f3460; }
+    .panel-3 { background: #533483; }
+    .divider {
+      background: #4a5568;
+      transition: background 0.2s;
+    }
+    .divider:hover {
+      background: #718096;
+    }
+    .divider.dragging {
+      background: #e94560;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #e94560;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Test 06: Multiple Dividers</h1>
+  
+  <div class="instructions">
+    <strong>What to test:</strong>
+    <ul>
+      <li>✅ Three panels with TWO dividers</li>
+      <li>✅ Left panel: 200px fixed (pink)</li>
+      <li>✅ Middle panel: Fills space (blue)</li>
+      <li>✅ Right panel: 250px fixed (purple)</li>
+      <li>✅ <strong>DRAG BOTH DIVIDERS!</strong></li>
+      <li>✅ Each divider should work independently</li>
+      <li>✅ Dividers: 5px width, gray color</li>
+    </ul>
+    <p><strong>CRITICAL TEST:</strong> Drag each divider. Do they both work independently?</p>
+    <p><strong>DID THAT WORK HUMAN?</strong> Report back: ✅ Pass or ❌ Fail</p>
+  </div>
+
+  <div id="layout-container"></div>
+
+  <a href="../index.html" class="back-link">← Back to Test Index</a>
+
+  <script type="module">
+    import { Layout, Panel, Divider } from '../../dist/liefs-layout-manager.js';
+
+    // Create horizontal layout
+    const layout = new Layout({
+      id: 'multiDividerLayout',
+      orientation: 'horizontal',
+      gap: 0,
+      className: 'layout'
+    });
+
+    // Create left panel
+    const leftPanel = new Panel({
+      id: 'leftPanel',
+      dim: '200px',
+      minSize: 100,
+      content: '<h2>Left</h2><p>200px</p>',
+      className: 'panel panel-1'
+    });
+
+    // Create first divider
+    const divider1 = new Divider({
+      id: 'divider1',
+      size: 5,
+      minSize: 100,
+      maxSize: 500,
+      className: 'divider',
+      onResize: (size) => {
+        console.log('Divider 1:', size);
+      }
+    });
+
+    // Create middle panel
+    const middlePanel = new Panel({
+      id: 'middlePanel',
+      fill: true,
+      content: '<h2>Middle</h2><p>Fills space</p>',
+      className: 'panel panel-2'
+    });
+
+    // Create second divider
+    const divider2 = new Divider({
+      id: 'divider2',
+      size: 5,
+      minSize: 100,
+      maxSize: 500,
+      className: 'divider',
+      onResize: (size) => {
+        console.log('Divider 2:', size);
+      }
+    });
+
+    // Create right panel
+    const rightPanel = new Panel({
+      id: 'rightPanel',
+      dim: '250px',
+      minSize: 150,
+      content: '<h2>Right</h2><p>250px</p>',
+      className: 'panel panel-3'
+    });
+
+    // Add all to layout
+    layout.addChild(leftPanel);
+    layout.addChild(divider1);
+    layout.addChild(middlePanel);
+    layout.addChild(divider2);
+    layout.addChild(rightPanel);
+
+    // Mount to container
+    const container = document.getElementById('layout-container');
+    layout.mount(container);
+  </script>
+</body>
+</html>

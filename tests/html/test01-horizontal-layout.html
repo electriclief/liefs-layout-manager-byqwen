@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test 01: Horizontal Layout</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif;
+      background: #1a1a2e;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+    }
+    h1 { color: #e94560; margin-bottom: 10px; }
+    .instructions { background: #16213e; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+    #layout-container {
+      width: 100%;
+      height: calc(100vh - 150px);
+      background: #0f3460;
+      border-radius: 8px;
+    }
+    .panel {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .panel-1 { background: #e94560; }
+    .panel-2 { background: #0f3460; }
+    .panel-3 { background: #533483; }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #e94560;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Test 01: Horizontal Layout</h1>
+  
+  <div class="instructions">
+    <strong>What to test:</strong>
+    <ul>
+      <li>✅ Three panels arranged horizontally (left to right)</li>
+      <li>✅ Panel 1: Fixed 200px width (pink)</li>
+      <li>✅ Panel 2: Fills remaining space (blue)</li>
+      <li>✅ Panel 3: Fixed 150px width (purple)</li>
+      <li>✅ 10px gap between panels</li>
+    </ul>
+    <p><strong>DID THAT WORK HUMAN?</strong> Report back: ✅ Pass or ❌ Fail</p>
+  </div>
+
+  <div id="layout-container"></div>
+
+  <a href="../index.html" class="back-link">← Back to Test Index</a>
+
+  <script type="module">
+    import { Layout, Panel } from '../../dist/liefs-layout-manager.js';
+
+    // Create horizontal layout
+    const layout = new Layout({
+      id: 'horizontalLayout',
+      orientation: 'horizontal',
+      gap: 10,
+      className: 'layout'
+    });
+
+    // Create panels
+    const panel1 = new Panel({
+      id: 'panel1',
+      dim: '200px',
+      content: '<h2>Panel 1</h2><p>Fixed 200px</p>',
+      className: 'panel panel-1'
+    });
+
+    const panel2 = new Panel({
+      id: 'panel2',
+      fill: true,
+      content: '<h2>Panel 2</h2><p>Fills Space</p>',
+      className: 'panel panel-2'
+    });
+
+    const panel3 = new Panel({
+      id: 'panel3',
+      dim: '150px',
+      content: '<h2>Panel 3</h2><p>Fixed 150px</p>',
+      className: 'panel panel-3'
+    });
+
+    // Add panels to layout
+    layout.addChild(panel1);
+    layout.addChild(panel2);
+    layout.addChild(panel3);
+
+    // Mount to container
+    const container = document.getElementById('layout-container');
+    layout.mount(container);
+  </script>
+</body>
+</html>

@@ -145,7 +145,7 @@ export class Layout extends Component {
       }
 
       if (index !== undefined && index < this.element.children.length) {
-        this.element.insertBefore(childElement, this.element.children[index]);
+        this.element.insertBefore(childElement, this.element.children[index] ?? null);
       } else {
         this.element.appendChild(childElement);
       }

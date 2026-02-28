@@ -53,11 +53,11 @@ export class Panel extends Component {
    */
   constructor(options: PanelOptions = {}) {
     super('Panel', options);
-    this.dim = options.dim;
-    this.minSize = options.minSize;
-    this.maxSize = options.maxSize;
-    this.fill = options.fill || false;
-    this.content = options.content;
+    if (options.dim !== undefined) this.dim = options.dim;
+    if (options.minSize !== undefined) this.minSize = options.minSize;
+    if (options.maxSize !== undefined) this.maxSize = options.maxSize;
+    this.fill = options.fill ?? false;
+    if (options.content !== undefined) this.content = options.content;
   }
 
   /**

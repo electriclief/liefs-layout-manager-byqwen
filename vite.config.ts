@@ -47,6 +47,8 @@ export default defineConfig({
         },
       },
     },
+    // Mock ResizeObserver for tests
+    setupFiles: ['./tests/setup.ts'],
   },
   resolve: {
     alias: {

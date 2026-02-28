@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test 04: Mixed Dimensions</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif;
+      background: #1a1a2e;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+    }
+    h1 { color: #e94560; margin-bottom: 10px; }
+    .instructions { background: #16213e; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+    #layout-container {
+      width: 100%;
+      height: calc(100vh - 150px);
+      background: #0f3460;
+      border-radius: 8px;
+    }
+    .panel {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .panel-px { background: #e94560; }
+    .panel-percent { background: #0f3460; }
+    .panel-fill { background: #533483; }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #e94560;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Test 04: Mixed Dimensions</h1>
+  
+  <div class="instructions">
+    <strong>What to test:</strong>
+    <ul>
+      <li>✅ Four panels with different dimension types</li>
+      <li>✅ Panel 1: 150px fixed (pink)</li>
+      <li>✅ Panel 2: 25% of remaining space (blue)</li>
+      <li>✅ Panel 3: Fills remaining space (purple)</li>
+      <li>✅ Panel 4: 200px fixed (pink)</li>
+      <li>✅ Resize browser window - percentages should adjust</li>
+    </ul>
+    <p><strong>DID THAT WORK HUMAN?</strong> Report back: ✅ Pass or ❌ Fail</p>
+  </div>
+
+  <div id="layout-container"></div>
+
+  <a href="../index.html" class="back-link">← Back to Test Index</a>
+
+  <script type="module">
+    import { Layout, Panel } from '../../dist/liefs-layout-manager.js';
+
+    // Create horizontal layout
+    const layout = new Layout({
+      id: 'mixedLayout',
+      orientation: 'horizontal',
+      gap: 10,
+      className: 'layout'
+    });
+
+    // Create panels with different dimension types
+    const panel1 = new Panel({
+      id: 'panel1',
+      dim: '150px',
+      content: '<h2>150px</h2><p>Fixed pixels</p>',
+      className: 'panel panel-px'
+    });
+
+    const panel2 = new Panel({
+      id: 'panel2',
+      dim: '25%',
+      content: '<h2>25%</h2><p>Percentage</p>',
+      className: 'panel panel-percent'
+    });
+
+    const panel3 = new Panel({
+      id: 'panel3',
+      fill: true,
+      content: '<h2>Fill</h2><p>Remaining space</p>',
+      className: 'panel panel-fill'
+    });
+
+    const panel4 = new Panel({
+      id: 'panel4',
+      dim: '200px',
+      content: '<h2>200px</h2><p>Fixed pixels</p>',
+      className: 'panel panel-px'
+    });
+
+    // Add panels to layout
+    layout.addChild(panel1);
+    layout.addChild(panel2);
+    layout.addChild(panel3);
+    layout.addChild(panel4);
+
+    // Mount to container
+    const container = document.getElementById('layout-container');
+    layout.mount(container);
+  </script>
+</body>
+</html>

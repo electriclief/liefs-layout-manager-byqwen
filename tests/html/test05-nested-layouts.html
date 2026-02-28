@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test 05: Nested Layouts</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif;
+      background: #1a1a2e;
+      color: white;
+      height: 100vh;
+      padding: 20px;
+    }
+    h1 { color: #e94560; margin-bottom: 10px; }
+    .instructions { background: #16213e; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+    #layout-container {
+      width: 100%;
+      height: calc(100vh - 150px);
+      background: #0f3460;
+      border-radius: 8px;
+    }
+    .panel {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .sidebar { background: #e94560; }
+    .main-top { background: #0f3460; }
+    .main-bottom { background: #533483; }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #e94560;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Test 05: Nested Layouts</h1>
+  
+  <div class="instructions">
+    <strong>What to test:</strong>
+    <ul>
+      <li>✅ Horizontal layout with 2 sections</li>
+      <li>✅ Left: Sidebar (250px fixed, pink)</li>
+      <li>✅ Right: Vertical layout with 2 panels</li>
+      <li>✅ Main Top: Fills space (blue)</li>
+      <li>✅ Main Bottom: 150px fixed (purple)</li>
+      <li>✅ Nested layouts should render correctly</li>
+    </ul>
+    <p><strong>DID THAT WORK HUMAN?</strong> Report back: ✅ Pass or ❌ Fail</p>
+  </div>
+
+  <div id="layout-container"></div>
+
+  <a href="../index.html" class="back-link">← Back to Test Index</a>
+
+  <script type="module">
+    import { Layout, Panel } from '../../dist/liefs-layout-manager.js';
+
+    // Create main horizontal layout
+    const mainLayout = new Layout({
+      id: 'mainLayout',
+      orientation: 'horizontal',
+      gap: 10,
+      className: 'layout'
+    });
+
+    // Create sidebar panel
+    const sidebar = new Panel({
+      id: 'sidebar',
+      dim: '250px',
+      content: '<h2>Sidebar</h2><p>250px fixed</p>',
+      className: 'panel sidebar'
+    });
+
+    // Create nested vertical layout for main content
+    const mainContentLayout = new Layout({
+      id: 'mainContent',
+      orientation: 'vertical',
+      gap: 10,
+      className: 'layout'
+    });
+
+    // Create top main panel
+    const mainTop = new Panel({
+      id: 'mainTop',
+      fill: true,
+      content: '<h2>Main Top</h2><p>Fills space</p>',
+      className: 'panel main-top'
+    });
+
+    // Create bottom main panel
+    const mainBottom = new Panel({
+      id: 'mainBottom',
+      dim: '150px',
+      content: '<h2>Main Bottom</h2><p>150px fixed</p>',
+      className: 'panel main-bottom'
+    });
+
+    // Add panels to nested layout
+    mainContentLayout.addChild(mainTop);
+    mainContentLayout.addChild(mainBottom);
+
+    // Add sidebar and nested layout to main layout
+    mainLayout.addChild(sidebar);
+    mainLayout.addChild(mainContentLayout);
+
+    // Mount to container
+    const container = document.getElementById('layout-container');
+    mainLayout.mount(container);
+  </script>
+</body>
+</html>

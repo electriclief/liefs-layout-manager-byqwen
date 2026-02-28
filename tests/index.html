@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liefs Layout Manager - Human Testing Interface</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    h1 {
+      color: #e94560;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 2rem;
+    }
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .test-card {
+      background: #16213e;
+      border-radius: 8px;
+      padding: 1.5rem;
+      border: 1px solid #0f3460;
+    }
+    .test-card h2 {
+      color: #e94560;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .test-card p {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .test-card a {
+      display: inline-block;
+      background: #e94560;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .test-card a:hover {
+      background: #ff6b6b;
+    }
+    .status {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: #0f3460;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+    .status.pass { color: #4ade80; }
+    .status.fail { color: #f87171; }
+    .status.pending { color: #fbbf24; }
+    .instructions {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      background: #16213e;
+      border-radius: 8px;
+      border: 1px solid #0f3460;
+    }
+    .instructions h3 {
+      color: #e94560;
+      margin-bottom: 1rem;
+    }
+    .instructions ol {
+      margin-left: 1.5rem;
+      line-height: 1.8;
+    }
+    .instructions code {
+      background: #0f3460;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: 'Consolas', monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧪 Human Testing Interface</h1>
+  <p class="subtitle">Liefs Layout Manager v4.0.0 - Phase 2 Verification</p>
+
+  <div class="instructions">
+    <h3>📋 Testing Instructions</h3>
+    <ol>
+      <li>Click each test link below to open the test page</li>
+      <li>Interact with the layout (resize panels, check responsiveness)</li>
+      <li>Answer the question: <strong>"DID THAT WORK HUMAN?"</strong></li>
+      <li>Report back: ✅ Pass or ❌ Fail for each test</li>
+      <li>I'll fix any issues you find!</li>
+    </ol>
+  </div>
+
+  <div class="test-grid">
+    <div class="test-card">
+      <h2>Test 01: Basic Horizontal Layout</h2>
+      <p>Simple horizontal flexbox layout with 3 panels</p>
+      <a href="tests/html/test01-horizontal-layout.html" target="_blank">Open Test →</a>
+      <div class="status pending">Status: Awaiting human verification</div>
+    </div>
+
+    <div class="test-card">
+      <h2>Test 02: Basic Vertical Layout</h2>
+      <p>Simple vertical flexbox layout with 3 panels</p>
+      <a href="tests/html/test02-vertical-layout.html" target="_blank">Open Test →</a>
+      <div class="status pending">Status: Awaiting human verification</div>
+    </div>
+
+    <div class="test-card">
+      <h2>Test 03: Resizable Panels</h2>
+      <p>Two panels with draggable divider - TEST THE DRAG!</p>
+      <a href="tests/html/test03-resizable-panels.html" target="_blank">Open Test →</a>
+      <div class="status pending">Status: Awaiting human verification</div>
+    </div>
+
+    <div class="test-card">
+      <h2>Test 04: Mixed Dimensions</h2>
+      <p>Mix of px, %, and fill panels in one layout</p>
+      <a href="tests/html/test04-mixed-dimensions.html" target="_blank">Open Test →</a>
+      <div class="status pending">Status: Awaiting human verification</div>
+    </div>
+
+    <div class="test-card">
+      <h2>Test 05: Nested Layouts</h2>
+      <p>Horizontal layout containing vertical layouts</p>
+      <a href="tests/html/test05-nested-layouts.html" target="_blank">Open Test →</a>
+      <div class="status pending">Status: Awaiting human verification</div>
+    </div>
+
+    <div class="test-card">
+      <h2>Test 06: Multiple Dividers</h2>
+      <p>Three panels with two resizable dividers</p>
+      <a href="tests/html/test06-multiple-dividers.html" target="_blank">Open Test →</a>
+      <div class="status pending">Status: Awaiting human verification</div>
+    </div>
+  </div>
+
+  <script>
+    // Simple script to track which tests have been opened
+    const links = document.querySelectorAll('.test-card a');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        const statusDiv = link.parentElement.querySelector('.status');
+        statusDiv.textContent = 'Status: Test opened - awaiting feedback';
+        statusDiv.className = 'status pending';
+      });
+    });
+  </script>
+</body>
+</html>
