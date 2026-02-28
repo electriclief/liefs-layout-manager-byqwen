@@ -1,0 +1,174 @@
+# QWEN.md - Project Memory
+
+## Project: liefs-layout-manager v4.0.0 (Complete Rewrite)
+
+**Started**: 2026-02-28  
+**User**: Stacy Lief Kelly (Lief / Sigma One)  
+**GitHub**: https://github.com/electriclief/liefs-layout-manager  
+**Original npm**: https://www.npmjs.com/package/liefs-layout-manager
+
+---
+
+## Context
+
+Lief created the original `liefs-layout-manager` v3.0.0 five years ago (2017-2021 era). It was a coordinate-based dynamic layout manager with:
+- Absolute positioning system
+- Custom argument sorting by type
+- Components: DisplayCell, DisplayGroup, DragBar, Pages, ScrollBar, Modal, Context, Tree, Selected
+- Clean DOM management
+
+**Problem**: The original was written while still learning. It has:
+- Confusing API (positional arguments sorted by type)
+- Manual coordinate calculations
+- No tests
+- No touch/accessibility support
+- Global state everywhere
+- Inefficient full re-renders
+
+**Goal**: Complete modern rewrite using Flexbox, proper TypeScript, test-driven development, and modern best practices.
+
+---
+
+## What I Asked Qwen To Do
+
+1. **Familiarize** with the original package (extracted from npm)
+2. **Create intent.md** - Complete architecture document capturing original intent + rewrite plan
+3. **Create this QWEN.md** - Project memory for continuity
+4. **Create todo.md** - Phased task tree for tracking progress
+5. **Initialize git repository**
+6. **Execute the rewrite** following the phases in todo.md
+
+---
+
+## Key Principles to Remember
+
+### Development Workflow
+- **Test-Driven**: Every function should have matching test(s) in `tests/`
+- **TypeScript First**: Strict mode, no `any` types
+- **Flexbox-Based**: Use CSS Flexbox/Grid instead of absolute positioning
+- **Modern API**: Named parameters/options objects, not positional argument sorting
+- **Documentation**: Auto-generate docs, include interactive examples
+
+### Architecture Decisions
+- **Modular**: Break into small, digestible components
+- **Framework Agnostic**: Core in vanilla TS, then add React/Vue/Angular bindings
+- **Accessible**: ARIA labels, keyboard navigation from day one
+- **Touch Support**: Pointer events, not mouse events
+- **Performance**: RequestAnimationFrame, memoization, virtual rendering for large trees
+
+### What to Preserve from v3
+- Clean DOM philosophy (only render visible)
+- Mixed dimension system (px + %)
+- Component hierarchy concept
+- Modal/drag behavior
+- Context menu nesting
+
+### What to Eliminate from v3
+- Argument sorting system (use options objects)
+- Absolute positioning (use Flexbox)
+- Global state (use proper state management)
+- Full re-renders (use incremental rendering)
+- No tests (full test coverage required)
+
+---
+
+## Project Structure (Planned)
+
+```
+liefs-layout-manager/
+├── src/
+│   ├── core/           # Foundation (Component, EventEmitter, types)
+│   ├── components/     # Panel, Layout, Divider, Modal, Tabs, Menu, Tree, Scrollbar
+│   ├── utils/          # dimension parsing, DOM helpers
+│   └── index.ts        # Public exports
+├── tests/              # ALL tests - matched to functions
+│   ├── unit/
+│   ├── integration/
+│   └── e2e/
+├── examples/           # Working demos
+├── docs/               # Documentation
+├── intent.md           # Architecture & intent document
+├── todo.md             # Phase tracking
+└── QWEN.md             # This memory file
+```
+
+---
+
+## Phase Status
+
+See `todo.md` for detailed breakdown. Summary:
+
+| Phase | Status | Focus |
+|-------|--------|-------|
+| Phase 1 | Pending | Foundation (TypeScript, build, tests) |
+| Phase 2 | Pending | Core Layout (Layout, Panel, Divider) |
+| Phase 3 | Pending | Advanced Components (Modal, Tabs, Menu, Tree, Scrollbar) |
+| Phase 4 | Pending | Polish (animations, touch, a11y, themes) |
+| Phase 5 | Pending | Framework bindings (React, Vue, Angular) |
+| Phase 6 | Pending | Release (beta, optimize, docs, v4.0.0) |
+
+---
+
+## Commands & Workflows
+
+### User Preferences
+- **HATES background jobs**: Always run commands in foreground (`is_background: false`)
+- **Talk mode**: TTS plays at END of responses (toggle with "talk on/off")
+- **Documentation**: Use ComfyUI (192.168.1.100:8188) to generate images for docs
+- **Testing**: Every function must have matching test(s)
+
+### Development Commands (once set up)
+```bash
+# Install
+npm install
+
+# Test (all)
+npm test
+
+# Test (watch)
+npm run test:watch
+
+# Build
+npm run build
+
+# Lint
+npm run lint
+
+# Examples dev server
+npm run dev
+```
+
+---
+
+## Important Files
+
+| File | Purpose |
+|------|---------|
+| `intent.md` | Complete architecture document - original + rewrite plan |
+| `todo.md` | Phased task tree for progress tracking |
+| `QWEN.md` | This memory file - context for AI continuity |
+| `README.md` | User-facing documentation (to be created) |
+| `CHANGELOG.md` | Version history (to be created) |
+
+---
+
+## When Resuming After Break
+
+1. Read `todo.md` to see current phase and next action
+2. Check git status for any uncommitted work
+3. Continue from where we left off - phases are independent
+
+---
+
+## Contact / Links
+
+- **User**: Stacy Lief Kelly (Lief / Sigma One)
+- **Email**: electriclief@gmail.com
+- **GitHub**: https://github.com/electriclief
+- **Original Package**: https://www.npmjs.com/package/liefs-layout-manager
+- **Original Docs**: https://leafdriving.github.io/liefs-layout-manager-3.0.0/Manual/Manual.html
+
+---
+
+**Last Updated**: 2026-02-28  
+**Version**: 4.0.0-rewrite-in-progress
